@@ -46,14 +46,12 @@ jobs:
           git config --global user.name "Lighthouse CI"
           git config --global user.email "action@github.com"
 
-          git fetch 
-          git stash
-          git checkout lighthouse-scores
-
-          git restore --source=origin/lighthouse-scores --staged --worktree .
+          git fetch origin
+          git checkout main
+          git pull origin main
 
           cp lhci-reports/lighthouse-scores.json ./
           git add lighthouse-scores.json
 
           git commit -m "Lighthouse scores for ${{ github.ref_name }} on [$(date +'%Y-%m-%d %H:%M:%S')]"
-          git push origin lighthouse-scores
+          git push origin main
