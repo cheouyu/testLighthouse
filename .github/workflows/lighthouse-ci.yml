@@ -36,6 +36,15 @@ jobs:
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
+       - name: Get main branch Lighthouse scores
+        run: |
+          git fetch origin main
+          git checkout main -- lighthouse-scores.json
+        continue-on-error: true
+
+      - name: Compare Lighthouse Scores
+        run: node ./compare-lighthouse-scores.js
+
       - name: Check and Save Lighthouse Scores
         run: node ./lighthouse-scores.js
 
@@ -55,3 +64,10 @@ jobs:
 
           git commit -m "Lighthouse scores for ${{ github.ref_name }} on [$(date +'%Y-%m-%d %H:%M:%S')]"
           git push origin main
+
+      - name: Upload current Lighthouse CI reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: lighthouse-reports
+          path: ./lhci-reports
