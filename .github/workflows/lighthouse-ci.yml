@@ -38,7 +38,7 @@ jobs:
 
       - name: Get main branch Lighthouse scores
         run: |
-          git fetch origin main
+          git fetch
           git checkout main -- lighthouse-scores.json
           mv lighthouse-scores.json main-branch-lighthouse-scores.json
         continue-on-error: true
