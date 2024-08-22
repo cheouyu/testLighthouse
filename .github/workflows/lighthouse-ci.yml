@@ -36,7 +36,7 @@ jobs:
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
-       - name: Get main branch Lighthouse scores
+      - name: Get main branch Lighthouse scores
         run: |
           git fetch origin main
           git checkout main -- lighthouse-scores.json
