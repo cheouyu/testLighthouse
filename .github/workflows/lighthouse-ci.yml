@@ -49,9 +49,9 @@ jobs:
 
           git fetch 
 
-          git stash 
           git checkout lighthouse-scores
-          git stash pop
+          
+          git restore --source=origin/lighthouse-scores -- .
 
           cp lhci-reports/lighthouse-scores.json ./
           git add lighthouse-scores.json
