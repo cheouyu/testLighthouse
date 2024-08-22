@@ -41,11 +41,15 @@ jobs:
         run: node ./lighthouse-scores.js
 
       - name: Commit and Push Lighthouse Scores
+        env:
+          GITHUB_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
         run: |
           git config --global user.name "Lighthouse CI"
           git config --global user.email "action@github.com"
-          git checkout -b lighthouse-scores
-          git add lhci-reports/lighthouse-scores.json
+          git checkout lighthouse-scores
+          git pull origin lighthouse-scores
+          cp lhci-reports/lighthouse-scores.json ./
+          git add lighthouse-scores.json
           git commit -m "Lighthouse scores for ${{ github.ref_name }} on [$(date +'%Y-%m-%d %H:%M:%S')]"
-          git push -u origin lighthouse-scores --force
-        if: always()
+          git push origin lighthouse-scores
+
