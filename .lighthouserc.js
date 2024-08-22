@@ -30,7 +30,7 @@ const getURLs = () => {
 module.exports = {
   ci: {
     collect: {
-      numberOfRuns: 1,
+      numberOfRuns: 2,
       url: getURLs(), // 這裡的URL應該對應你的服務器地址
     },
     assert: {
@@ -41,9 +41,9 @@ module.exports = {
         "categories.seo": ["error", { minScore: 0.9 }],
       },
     },
-    upload: {
-      target: "filesystem",
-      outputDir: "./lhci-reports",
-    },
+    // upload: {
+    //   target: "filesystem",
+    //   outputDir: "./lhci-reports",
+    // },
   },
 };
