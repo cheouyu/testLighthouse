@@ -48,9 +48,9 @@ jobs:
           git config --global user.email "action@github.com"
 
           git fetch 
-
+          git reset --hard
           git checkout lighthouse-scores
-          
+
           git restore --source=origin/lighthouse-scores -- .
 
           cp lhci-reports/lighthouse-scores.json ./
