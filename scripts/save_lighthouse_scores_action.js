@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const lighthouseDir = path.join(__dirname, ".lighthouseci");
+const lighthouseDir = path.join(__dirname, "..", ".lighthouseci"); // 更新路径
 const jsonFiles = fs
   .readdirSync(lighthouseDir)
   .filter((file) => file.startsWith("lhr-") && file.endsWith(".json"));
@@ -46,7 +46,7 @@ const scoresArray = jsonFiles.map((file) =>
 const averageScores = calculateAverageScores(scoresArray);
 
 // 將结果保存為 JSON 文件
-const outputDir = path.join(__dirname, "lhci-reports");
+const outputDir = path.join(__dirname, "..", "lhci-reports"); // 更新路径
 if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir);
 }

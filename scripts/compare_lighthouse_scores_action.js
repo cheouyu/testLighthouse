@@ -1,7 +1,12 @@
 const fs = require("fs");
+const path = require("path");
 
 // 读取 main 分支中的旧 Lighthouse 分数
-const oldScoresPath = "./main-branch-lighthouse-scores.json";
+const oldScoresPath = path.join(
+  __dirname,
+  "..",
+  "main-branch-lighthouse-scores.json"
+); // 更新路径
 let oldScores = null;
 if (fs.existsSync(oldScoresPath)) {
   console.log(oldScoresPath);
@@ -10,7 +15,12 @@ if (fs.existsSync(oldScoresPath)) {
 console.log(oldScores);
 
 // 读取当前生成的 Lighthouse 分数
-const newScoresPath = "./lhci-reports/lighthouse-scores.json";
+const newScoresPath = path.join(
+  __dirname,
+  "..",
+  "lhci-reports",
+  "lighthouse-scores.json"
+); // 更新路径
 const newScores = JSON.parse(fs.readFileSync(newScoresPath, "utf-8"));
 
 // 比较性能分数
