@@ -32,7 +32,6 @@ module.exports = {
     collect: {
       numberOfRuns: 1,
       url: getURLs(), // 這裡的URL應該對應你的服務器地址
-      startServerCommand: "npm run start", // 如果你想讓 LHCI 自動啟動服務器
     },
     assert: {
       assertions: {
