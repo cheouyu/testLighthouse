@@ -1,9 +1,6 @@
 name: Lighthouse CI
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
@@ -40,9 +37,15 @@ jobs:
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
-      - name: Upload Lighthouse CI reports
+      - name: Check and Save Lighthouse Scores
+        run: node ./lighthouse-scores.js
+
+      - name: Commit and Push Lighthouse Scores
+        run: |
+          git config --global user.name "Lighthouse CI"
+          git config --global user.email "action@github.com"
+          git checkout -b lighthouse-scores
+          git add lhci-reports/lighthouse-scores.json
+          git commit -m "Lighthouse scores for ${{ github.ref_name }} on [$(date +'%Y-%m-%d %H:%M:%S')]"
+          git push -u origin lighthouse-scores --force
         if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: lighthouse-reports
-          path: ./lhci-reports
