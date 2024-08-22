@@ -14,7 +14,7 @@ const newScores = JSON.parse(fs.readFileSync(newScoresPath, "utf-8"));
 // 比较性能分数
 if (oldScores) {
   const oldPerformance = oldScores.performance.score;
-  const newPerformance = newScores.categories.performance.score * 100;
+  const newPerformance = newScores.performance.score * 100;
 
   console.log(`Old Performance Score: ${oldPerformance}`);
   console.log(`New Performance Score: ${newPerformance}`);
