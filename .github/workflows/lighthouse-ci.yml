@@ -40,13 +40,14 @@ jobs:
         run: |
           git fetch origin main
           git checkout main -- lighthouse-scores.json
+          mv lighthouse-scores.json main-branch-lighthouse-scores.json
         continue-on-error: true
-
-      - name: Compare Lighthouse Scores
-        run: node ./compare-lighthouse-scores.js
 
       - name: Check and Save Lighthouse Scores
         run: node ./lighthouse-scores.js
+
+      - name: Compare Lighthouse Scores
+        run: node ./compare-lighthouse-scores.js
 
       - name: Commit and Push Lighthouse Scores
         env:
