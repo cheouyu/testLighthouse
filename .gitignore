@@ -5,3 +5,4 @@
 !.gitignore
 !lhci-reports/
 !lhci-reports/lighthouse-scores.json
+!lighthouse-scores.json
