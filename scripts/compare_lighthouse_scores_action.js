@@ -1,20 +1,22 @@
 const fs = require("fs");
 
 // 读取 main 分支中的旧 Lighthouse 分数
-const oldScoresPath = "./main-branch-lighthouse-scores.json.json";
+const oldScoresPath = "./main-branch-lighthouse-scores.json";
 let oldScores = null;
 if (fs.existsSync(oldScoresPath)) {
+  console.log(oldScoresPath);
   oldScores = JSON.parse(fs.readFileSync(oldScoresPath, "utf-8"));
 }
+console.log(oldScores);
 
 // 读取当前生成的 Lighthouse 分数
-const newScoresPath = "./lighthouse-scores.json";
+const newScoresPath = "./lhci-reports/lighthouse-scores.json";
 const newScores = JSON.parse(fs.readFileSync(newScoresPath, "utf-8"));
 
 // 比较性能分数
 if (oldScores) {
-  const oldPerformance = oldScores.performance.score;
-  const newPerformance = newScores.performance.score;
+  const oldPerformance = oldScores.performance;
+  const newPerformance = newScores.performance;
 
   console.log(`Old Performance Score: ${oldPerformance}`);
   console.log(`New Performance Score: ${newPerformance}`);

@@ -44,10 +44,10 @@ jobs:
         continue-on-error: true
 
       - name: Check and Save Lighthouse Scores
-        run: node ./lighthouse-scores.js
+        run: node ./scripts/save_lighthouse_scores_action.js
 
       - name: Compare Lighthouse Scores
-        run: node ./compare-lighthouse-scores.js
+        run: node ./scripts/compare_lighthouse_scores_action.js
 
       - name: Commit and Push Lighthouse Scores
         env:
