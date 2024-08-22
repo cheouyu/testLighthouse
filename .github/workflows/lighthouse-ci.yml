@@ -38,9 +38,11 @@ jobs:
 
       - name: Get main branch Lighthouse scores
         run: |
-          git fetch --prune
-          git remote update
+          git branch -a
+          git stash # 暂存当前更改，避免冲突
+          git fetch
           git checkout main -- lighthouse-scores.json
+          git stash pop # 恢复暂存的更改
           mv lighthouse-scores.json main-branch-lighthouse-scores.json
         continue-on-error: true
 
