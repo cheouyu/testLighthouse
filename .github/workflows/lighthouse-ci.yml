@@ -41,6 +41,8 @@ jobs:
         run: node ./lighthouse-scores.js
 
       - name: Commit and Push Lighthouse Scores
+        env:
+          GITHUB_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
         run: |
           git config --global user.name "Lighthouse CI"
           git config --global user.email "action@github.com"
