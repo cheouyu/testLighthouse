@@ -1,0 +1,46 @@
+name: Lighthouse CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the application
+        run: npm run build
+
+      - name: Start the application
+        run: npm start &
+        env:
+          CI: true
+
+      - name: Run Lighthouse CI
+        run: |
+          npx lhci autorun
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+      # - name: Upload Lighthouse CI reports
+      #   if: always()
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: lighthouse-reports
+      #     path: ./lhci-reports
