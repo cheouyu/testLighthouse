@@ -1,0 +1,7 @@
+# 忽略所有文件
+/*
+
+# 允许 lhci-reports 目录和其中的 lighthouse-scores.json 文件
+!.gitignore
+!lhci-reports/
+!lhci-reports/lighthouse-scores.json
