@@ -40,9 +40,9 @@ jobs:
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
-      # - name: Upload Lighthouse CI reports
-      #   if: always()
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: lighthouse-reports
-      #     path: ./lhci-reports
+      - name: Upload Lighthouse CI reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: lighthouse-reports
+          path: ./lhci-reports
