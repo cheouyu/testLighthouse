@@ -48,9 +48,10 @@ jobs:
           git config --global user.email "action@github.com"
 
           git fetch origin lighthouse-scores:lighthouse-scores || git checkout -b lighthouse-scores
-
+          git stash
           git checkout lighthouse-scores
           git pull origin lighthouse-scores
+          git stash pop
 
           cp lhci-reports/lighthouse-scores.json ./
           git add lighthouse-scores.json
