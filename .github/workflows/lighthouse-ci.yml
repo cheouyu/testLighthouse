@@ -51,10 +51,10 @@ jobs:
       - name: Get main branch Lighthouse scores
         run: |
           git branch -a
-          git stash # 暂存当前更改，避免冲突
+          git stash 
           git fetch
           git checkout main -- lighthouse-scores.json
-          git stash pop # 恢复暂存的更改
+          git stash pop 
           mv lighthouse-scores.json main-branch-lighthouse-scores.json
         continue-on-error: true
 
@@ -71,13 +71,13 @@ jobs:
           git config --global user.name "Lighthouse CI"
           git config --global user.email "action@github.com"
 
-          git pull origin ${{ github.ref_name }} # 拉取最新的提交，确保是最新状态
+          git pull origin ${{ github.ref_name }} 
 
           cp lhci-reports/lighthouse-scores.json ./
           git add lighthouse-scores.json
 
           git commit -m "Lighthouse scores for ${{ github.ref_name }} on [$(date +'%Y-%m-%d %H:%M:%S')]"
-          git push origin ${{ github.ref_name }} # 推送到当前分支
+          git push origin ${{ github.ref_name }} 
 
       - name: Upload current Lighthouse CI reports
         if: always()
