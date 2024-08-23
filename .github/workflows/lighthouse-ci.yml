@@ -70,7 +70,7 @@ jobs:
           git config --global user.name "Lighthouse CI"
           git config --global user.email "action@github.com"
           git stash || true
-          git pull  origin ${{ github.head_ref }}
+          git pull --rebase origin ${{ github.head_ref }}
           git stash pop || true
           cp lhci-reports/lighthouse-scores.json ./
           git add lighthouse-scores.json
