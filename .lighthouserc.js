@@ -7,6 +7,10 @@ const getPagePaths = (dir, baseUrl = "http://localhost:3000") => {
   const list = fs.readdirSync(dir);
 
   list.forEach((file) => {
+    if (file.includes("[") || file.includes("]")) {
+      return;
+    }
+
     const filePath = path.join(dir, file);
     const stat = fs.statSync(filePath);
 
