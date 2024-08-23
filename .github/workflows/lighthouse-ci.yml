@@ -55,7 +55,7 @@ jobs:
           git checkout main -- lighthouse-scores.json || echo "No previous lighthouse-scores.json found in main"
           git stash pop 
           mv lighthouse-scores.json main-branch-lighthouse-scores.json || echo "No previous scores to move"
-      continue-on-error: true
+        continue-on-error: true
 
       - name: Check and Save Lighthouse Scores
         run: node ./scripts/save_lighthouse_scores_action.js
@@ -76,7 +76,7 @@ jobs:
           git add lighthouse-scores.json
 
           git commit -m "Lighthouse scores for ${{ github.head_ref }} on [$(date +'%Y-%m-%d %H:%M:%S')]"
-          git push origin ${{ github.head_ref }} 
+          git push origin ${{ github.head_ref }}
 
       - name: Upload current Lighthouse CI reports
         if: always()
