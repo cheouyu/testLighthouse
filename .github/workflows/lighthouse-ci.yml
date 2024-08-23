@@ -65,6 +65,7 @@ jobs:
 
       - name: Checkout the PR source branch
         run: |
+          git fetch
           git checkout ${{ github.head_ref }}  
 
       - name: Commit and Push Lighthouse Scores
@@ -73,8 +74,6 @@ jobs:
         run: |
           git config --global user.name "Lighthouse CI"
           git config --global user.email "action@github.com"
-
-          git pull --rebase origin ${{ github.head_ref }} 
 
           cp lhci-reports/lighthouse-scores.json ./
           git add lighthouse-scores.json
