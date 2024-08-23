@@ -69,14 +69,12 @@ jobs:
         run: |
           git config --global user.name "Lighthouse CI"
           git config --global user.email "action@github.com"
-          git stash || true
-          git pull --rebase origin ${{ github.head_ref }}
-          git stash pop || true
+
           cp lhci-reports/lighthouse-scores.json ./
           git add lighthouse-scores.json
 
           git commit -m "Lighthouse scores for ${{ github.head_ref }} on [$(date +'%Y-%m-%d %H:%M:%S')]"
-          git push origin ${{ github.head_ref }} --force
+          git push
 
       - name: Upload current Lighthouse CI reports
         if: always()
