@@ -71,15 +71,13 @@ jobs:
           git config --global user.name "Lighthouse CI"
           git config --global user.email "action@github.com"
 
-          git fetch origin
-          git checkout main
-          git pull origin main
+          git pull origin ${{ github.ref_name }} # 拉取最新的提交，确保是最新状态
 
           cp lhci-reports/lighthouse-scores.json ./
           git add lighthouse-scores.json
 
           git commit -m "Lighthouse scores for ${{ github.ref_name }} on [$(date +'%Y-%m-%d %H:%M:%S')]"
-          git push origin main
+          git push origin ${{ github.ref_name }} # 推送到当前分支
 
       - name: Upload current Lighthouse CI reports
         if: always()
