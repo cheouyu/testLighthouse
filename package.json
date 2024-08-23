@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lhci:run": "lhci autorun && node lighthouse-scores.js"
+    "lhci": "lhci autorun && node ./scripts/save_lighthouse_scores_action.js"
   },
   "dependencies": {
     "next": "14.2.6",

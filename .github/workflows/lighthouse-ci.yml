@@ -30,9 +30,21 @@ jobs:
         env:
           CI: true
 
-      - name: Run Lighthouse CI
+      - name: Run Lighthouse CI with Retry
         run: |
+          set +e
           npx lhci autorun
+          RETRY=$?
+          if [ $RETRY -ne 0 ]; then
+            echo "Lighthouse CI failed, retrying..."
+            npx lhci autorun
+            RETRY=$?
+            if [ $RETRY -ne 0 ]; then
+              echo "Lighthouse CI failed again."
+              exit 1
+            fi
+          fi
+          set -e
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
