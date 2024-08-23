@@ -1,6 +1,6 @@
 {
   "http://localhost:3000/hihi": {
-    "performance": 93,
+    "performance": 100,
     "accessibility": 100,
     "bestPractices": 100,
     "seo": 100
