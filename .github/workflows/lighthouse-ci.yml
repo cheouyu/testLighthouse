@@ -21,7 +21,6 @@ jobs:
       - name: Install dependencies
         run: |
           npm install
-          npm install @lhci/cli
 
       - name: Build the application
         run: npm run build
@@ -31,25 +30,60 @@ jobs:
         env:
           CI: true
 
-      - name: Run Lighthouse CI
+      - name: Run Lighthouse CI with Retry
         run: |
+          set +e
           npx lhci autorun
+          RETRY=$?
+          if [ $RETRY -ne 0 ]; then
+            echo "Lighthouse CI failed, retrying..."
+            npx lhci autorun
+            RETRY=$?
+            if [ $RETRY -ne 0 ]; then
+              echo "Lighthouse CI failed again."
+              exit 1
+            fi
+          fi
+          set -e
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
+      - name: Get main branch Lighthouse scores
+        run: |
+          git fetch origin main:main 
+          git stash || true
+          git checkout main -- lighthouse-scores.json || echo "No previous lighthouse-scores.json found in main"
+          git stash pop || true
+          mv lighthouse-scores.json main-branch-lighthouse-scores.json || echo "No previous scores to move"
+        continue-on-error: true
+
       - name: Check and Save Lighthouse Scores
-        run: node ./lighthouse-scores.js
+        run: node ./scripts/save_lighthouse_scores_action.js
+
+      - name: Compare Lighthouse Scores
+        run: node ./scripts/compare_lighthouse_scores_action.js
+
+      - name: Checkout the PR source branch
+        run: |
+          git fetch
+          git checkout ${{ github.head_ref }}  
 
       - name: Commit and Push Lighthouse Scores
         env:
-          GITHUB_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name "Lighthouse CI"
           git config --global user.email "action@github.com"
-          git checkout lighthouse-scores
-          git pull origin lighthouse-scores
+
           cp lhci-reports/lighthouse-scores.json ./
           git add lighthouse-scores.json
-          git commit -m "Lighthouse scores for ${{ github.ref_name }} on [$(date +'%Y-%m-%d %H:%M:%S')]"
-          git push origin lighthouse-scores
 
+          git commit -m "Lighthouse scores for ${{ github.head_ref }} on [$(date +'%Y-%m-%d %H:%M:%S')]"
+          git push origin ${{ github.head_ref }} # 推送到 PR 的源分支
+
+      - name: Upload current Lighthouse CI reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: lighthouse-reports
+          path: ./lhci-reports
