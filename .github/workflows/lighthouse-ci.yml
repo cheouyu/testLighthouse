@@ -51,9 +51,9 @@ jobs:
       - name: Get main branch Lighthouse scores
         run: |
           git fetch origin main:main 
-          git stash 
+          git stash || true
           git checkout main -- lighthouse-scores.json || echo "No previous lighthouse-scores.json found in main"
-          git stash pop 
+          git stash pop || true
           mv lighthouse-scores.json main-branch-lighthouse-scores.json || echo "No previous scores to move"
         continue-on-error: true
 
@@ -69,8 +69,6 @@ jobs:
         run: |
           git config --global user.name "Lighthouse CI"
           git config --global user.email "action@github.com"
-
-          git pull origin ${{ github.head_ref }} 
 
           cp lhci-reports/lighthouse-scores.json ./
           git add lighthouse-scores.json
