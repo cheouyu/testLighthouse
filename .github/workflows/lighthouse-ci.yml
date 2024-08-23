@@ -50,13 +50,12 @@ jobs:
 
       - name: Get main branch Lighthouse scores
         run: |
-          git branch -a
+          git fetch origin main:main 
           git stash 
-          git fetch
-          git checkout main -- lighthouse-scores.json
+          git checkout main -- lighthouse-scores.json || echo "No previous lighthouse-scores.json found in main"
           git stash pop 
-          mv lighthouse-scores.json main-branch-lighthouse-scores.json
-        continue-on-error: true
+          mv lighthouse-scores.json main-branch-lighthouse-scores.json || echo "No previous scores to move"
+      continue-on-error: true
 
       - name: Check and Save Lighthouse Scores
         run: node ./scripts/save_lighthouse_scores_action.js
