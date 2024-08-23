@@ -63,6 +63,10 @@ jobs:
       - name: Compare Lighthouse Scores
         run: node ./scripts/compare_lighthouse_scores_action.js
 
+      - name: Checkout the PR source branch
+        run: |
+          git checkout ${{ github.head_ref }}  
+
       - name: Commit and Push Lighthouse Scores
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -70,11 +74,13 @@ jobs:
           git config --global user.name "Lighthouse CI"
           git config --global user.email "action@github.com"
 
+          git pull --rebase origin ${{ github.head_ref }} 
+
           cp lhci-reports/lighthouse-scores.json ./
           git add lighthouse-scores.json
 
           git commit -m "Lighthouse scores for ${{ github.head_ref }} on [$(date +'%Y-%m-%d %H:%M:%S')]"
-          git push
+          git push origin ${{ github.head_ref }} # 推送到 PR 的源分支
 
       - name: Upload current Lighthouse CI reports
         if: always()
